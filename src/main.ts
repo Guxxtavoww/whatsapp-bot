@@ -1,5 +1,6 @@
 import qrcode from 'qrcode-terminal';
 import { Client, LocalAuth } from 'whatsapp-web.js';
+import { commandsSchema } from './core/commands/commands.core';
 
 const client = new Client({ authStrategy: new LocalAuth() });
 
@@ -15,10 +16,17 @@ client.on('ready', () => {
 
 // Ping-Pong response to a specific command
 client.on('message_create', async (message) => {
-  console.log({ message });
-  // Check for the '!ping' command from the bot itself
-  if (message.body === '!ping' && message.fromMe) {
-    await message.reply('pong manda o !ping denovo');
+  if (message.body.startsWith('!')) {
+    const parsedCommandResult = commandsSchema.safeParse(message.body);
+
+    if (!parsedCommandResult.success) {
+      return await message.reply('Comando inválido');
+    }
+
+    // Check for the '!ping' command from the bot itself
+    if (message.body === '!ping' && message.fromMe) {
+      await message.reply('pong manda o !ping denovo');
+    }
   }
 });
 
