@@ -1,18 +1,7 @@
-import qrcode from 'qrcode-terminal';
-
 import { commandHandler } from './lib/commands-handler.lib';
 import { commandsSchema } from './core/commands/commands.core';
 import { whatsappClient } from './core/client/whatsapp-client.core';
 
-// QR Code generation when authentication is required
-whatsappClient.on('qr', (qr) => {
-  qrcode.generate(qr, { small: true });
-});
-
-// Bot is ready event
-whatsappClient.on('ready', () => {
-  console.log('Bot is ready!');
-});
 
 // Ping-Pong response to a specific command
 whatsappClient.on('message_create', async (message) => {
