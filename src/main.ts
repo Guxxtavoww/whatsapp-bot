@@ -18,7 +18,7 @@ client.on('message_create', async (message) => {
   console.log({ message });
   // Check for the '!ping' command from the bot itself
   if (message.body === '!ping' && message.fromMe) {
-    await message.reply('pong');
+    await message.reply('pong manda o !ping denovo');
   }
 });
 
